@@ -18,7 +18,7 @@ namespace Tundra {
 		MVI = 0x10, // Move Immediate  [ MVI reg, val ]
 		ADI = 0x11, // ADD  Immediate  [ ADI reg, val ]
 		STA = 0x12, // STORE           [ STA mem_add, {reg Value} ]
-
+		// TODO: Implement JMP instruction
 		JMP = 0x12, // JUMP [JMP mem_add]
 
 	  	HLT = 0xFF, // TERMINATE/HALT
