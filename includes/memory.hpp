@@ -1,4 +1,4 @@
-#pragma once
+// #pragma once
 #ifndef MEMORY_HPP
 #define MEMORY_HPP
 
@@ -22,4 +22,4 @@ public:
   }
 };
 
-#endif
+#endif // MEMORY_HPP

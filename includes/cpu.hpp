@@ -1,4 +1,4 @@
-#pragma once
+// #pragma once
 #ifndef CPU_HPP
 #define CPU_HPP
 #include "definitions.hpp"
@@ -64,4 +64,4 @@ public:
   void reset();
 };
 
-#endif
+#endif // CPU_HPP

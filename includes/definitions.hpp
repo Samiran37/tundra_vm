@@ -1,4 +1,4 @@
-#pragma once
+// #pragma once
 #ifndef DEFINITIONS_HPP
 #define DEFINITIONS_HPP
 
@@ -39,4 +39,4 @@ namespace Tundra {
 	// };
 };
 
-#endif
+#endif // DEFINITIONS_HPP
