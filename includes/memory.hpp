@@ -5,21 +5,22 @@
 #include <array>
 #include "definitions.hpp"
 
-class Memory {
-private:
-  std::array<Byte, MAX_MEM_SIZE> storage{};
+namespace Tundra {
+  class Memory {
+  private:
+    std::array<Byte, MAX_MEM_SIZE> storage{};
 
-public:
+  public:
 
-  // Reads the data from given address
-  Byte Read(Address add) {
-    return storage[add];
-  }
+    // Reads the data from given address
+    Byte Read(Address add) {
+      return storage[add];
+    }
 
-  // Writes the data to the given address
-  void Write(Address add, Byte data) {
-    storage[add] = data;
-  }
+    // Writes the data to the given address
+    void Write(Address add, Byte data) {
+      storage[add] = data;
+    }
+  };
 };
-
 #endif // MEMORY_HPP

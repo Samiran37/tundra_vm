@@ -9,8 +9,8 @@ Byte test_program[] = {
 };
 
 int main() {
-  Memory mem;
-  CPU    cpu;
+  Tundra::Memory mem;
+  Tundra::CPU    cpu;
 
   std::size_t test_program_size = sizeof(test_program) / sizeof(test_program[0]);
 

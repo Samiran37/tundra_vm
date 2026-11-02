@@ -1,10 +1,10 @@
 #include "cpu.hpp"
 
-void CPU::FetchCycle(Memory &mem) {
+void Tundra::CPU::FetchCycle(Memory &mem) {
 	IR = FetchByte(mem);
 }
 
-void CPU::ExecuteCycle(Memory &mem) {
+void Tundra::CPU::ExecuteCycle(Memory &mem) {
 	if(halted) {
 		return;
 	}
@@ -64,6 +64,10 @@ void CPU::ExecuteCycle(Memory &mem) {
 	    WriteCycle(mem, add, val);
 	    break;
 	}
+	// TODO: Implement JMP instruction
+	// case Opcode::JMP: {
+	// 	break;
+	// }
 	case Opcode::HLT: 
 		halted = true;
 		break;
@@ -75,12 +79,12 @@ void CPU::ExecuteCycle(Memory &mem) {
 	}
 }
 
-void CPU::step(Memory &mem) {
+void Tundra::CPU::step(Memory &mem) {
 	FetchCycle(mem);
 	ExecuteCycle(mem);
 }
 
-void CPU::reset() {
+void Tundra::CPU::reset() {
 	PC        = { 0x0000 };
 	registers = { 0 };
 	IR 		  = { 0 };
