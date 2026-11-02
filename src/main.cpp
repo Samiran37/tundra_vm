@@ -3,8 +3,8 @@
 
 Byte test_program[] = {
   0x10, 0x00, 0x0F,        // MVI A, 10
-  0x11, 0x00, 0x01,        // ADI A, 1
-  0x12, 0x34, 0x12, 0x00, // STA [0x1234], A ; Res should be B
+  0x11, 0x00, 0xFF,        // ADI A, 255
+  0x12, 0x34, 0x12, 0x00, // STA [0x1234], A ; Res should be A and carry flag should be set
   0xFF,                   // HLT
 };
 
@@ -26,5 +26,6 @@ int main() {
 
   Address add = { 0x1234 };
   std::println("Mem add[0x1234]: 0x{:02X}", mem.Read(add));
+  cpu.ReadFlagStatus();
   return 0;
 }

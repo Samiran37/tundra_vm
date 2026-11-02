@@ -28,7 +28,12 @@ namespace Tundra {
     
   public:
     bool halted = { false };
-
+    
+    void ReadFlagStatus() const {
+      std::println("Flag:");
+      std::println("Zero: {} || Carry: {} || Negative: {} || Overflow: {}", Zero, Carry, Negative, Overflow);
+    }
+    
     void ReadCycle(Memory &mem, Address add) {
       MAR = add;
       MDR = mem.Read(add);
