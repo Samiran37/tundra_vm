@@ -2,7 +2,7 @@
 #include "cpu.hpp"
 
 Byte test_program[] = {
-  0x10, 0x00, 0x0F,        // MVI A, 10
+  0x10, 0x00, 0x0A,        // MVI A, 10
   0x11, 0x00, 0xFF,        // ADI A, 255
   0x12, 0x34, 0x12, 0x00, // STA [0x1234], A ; Res should be A and carry flag should be set
   0xFF,                   // HLT
