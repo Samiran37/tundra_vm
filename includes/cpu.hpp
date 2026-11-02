@@ -25,10 +25,14 @@ namespace Tundra {
     bool Negative = false;
     bool Overflow = false;
   
-    
-  public:
     bool halted = { false };
     
+  public:
+    
+    bool isHalted() const {
+      return (halted);
+    };
+  
     void ReadFlagStatus() const {
       std::println("Flag:");
       std::println("Zero: {} || Carry: {} || Negative: {} || Overflow: {}", Zero, Carry, Negative, Overflow);

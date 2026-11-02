@@ -20,7 +20,7 @@ int main() {
   }
 
   // Execute
-  while(!cpu.halted) {
+  while(!cpu.isHalted()) {
     cpu.step(mem);
   }
 
