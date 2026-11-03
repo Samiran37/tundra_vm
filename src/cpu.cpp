@@ -50,7 +50,7 @@ void Tundra::CPU::ExecuteCycle(Memory &mem) {
 		break;
 	}
 	case Opcode::STA: { 
-		  Byte low   = FetchByte(mem); // Low Address
+		Byte low   = FetchByte(mem); // Low Address
 	    Byte high  = FetchByte(mem); // High Address
 	    Byte regID = FetchByte(mem);
 	    if(regID > static_cast<Byte>(Register::L)) {
@@ -65,9 +65,14 @@ void Tundra::CPU::ExecuteCycle(Memory &mem) {
 	    break;
 	}
 	// TODO: Implement JMP instruction
-	// case Opcode::JMP: {
-	// 	break;
-	// }
+	case Opcode::JMP: {
+		Byte low  = FetchByte(mem); // Fetch Low address
+		Byte high = FetchByte(mem); // Fetch high address
+
+		Address add = static_cast<Address>(high << 8) | static_cast<Address>(low);
+		PC = add;
+		break;
+	}
 	case Opcode::HLT: 
 		halted = true;
 		break;

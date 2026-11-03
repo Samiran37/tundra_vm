@@ -1,11 +1,12 @@
 #include "memory.hpp"
 #include "cpu.hpp"
 
+// Test JMP 
 Byte test_program[] = {
-  0x10, 0x00, 0x0A,        // MVI A, 10
-  0x11, 0x00, 0xFF,        // ADI A, 255
-  0x12, 0x34, 0x12, 0x00, // STA [0x1234], A ; Res should be A and carry flag should be set
-  0xFF,                   // HLT
+  0x10, 0x00, 0x0A, // MVI A, 10
+  0x13, 0x09, 0x00, // JMP [0x0009]
+  0x10, 0x00, 0x05, // MVI A, 5
+  0xFF,             // HLT
 };
 
 int main() {
@@ -24,8 +25,7 @@ int main() {
     cpu.step(mem);
   }
 
-  Address add = { 0x1234 };
-  std::println("Mem add[0x1234]: 0x{:02X}", mem.Read(add));
+  std::println("Value at reg  A: 0x{:02X}", cpu.GetRegister(Tundra::Register::A));
   cpu.ReadFlagStatus();
   return 0;
 }
