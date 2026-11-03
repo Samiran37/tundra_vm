@@ -35,9 +35,15 @@ namespace Tundra {
 	};
 
 	// TODO: Define Errors with proper types
-	// enum class Error {
-	// };
-	constexpr Address GetAddressFromHL(Byte low, Byte high) {
+	enum class Error {
+		INST_OK,
+		INST_STACK_OVERFLOW,
+		INST_STACK_UNDERFLOW,
+		INST_ILLEGAL_INST,
+		INST_UNKNOWN_INST,
+		INST_COUNT
+	};
+	constexpr Address GetAddressFromLH(Byte low, Byte high) {
 		return static_cast<Address>(high << 8) | static_cast<Address>(low); 
 	}
 };

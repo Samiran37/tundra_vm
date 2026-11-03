@@ -59,7 +59,7 @@ void Tundra::CPU::ExecuteCycle(Memory &mem) {
 	       break;
 	    }
 	    Register reg = static_cast<Register>(regID);
-	    Address add = GetAddressFromHL(low, high);
+	    Address add = GetAddressFromLH(low, high);
 	    Byte val = GetRegister(reg);
 	    WriteCycle(mem, add, val);
 	    break;
@@ -70,7 +70,7 @@ void Tundra::CPU::ExecuteCycle(Memory &mem) {
 		Byte high = FetchByte(mem); // Fetch high address
 
 		// Address add = static_cast<Address>(high << 8) | static_cast<Address>(low);
-		Address add = GetAddressFromHL(low, high);
+		Address add = GetAddressFromLH(low, high);
 		PC = add;
 		break;
 	}
