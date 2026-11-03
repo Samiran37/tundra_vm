@@ -37,6 +37,9 @@ namespace Tundra {
 	// TODO: Define Errors with proper types
 	// enum class Error {
 	// };
+	constexpr Address GetAddressFromHL(Byte low, Byte high) {
+		return static_cast<Address>(high << 8) | static_cast<Address>(low); 
+	}
 };
 
 #endif // DEFINITIONS_HPP
