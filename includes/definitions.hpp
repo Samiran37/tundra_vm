@@ -4,11 +4,14 @@
 
 #include <cstdint>
 #include <print>
+#include <expected>
 
 using Byte    = std::uint8_t;
 using Address = std::uint16_t;
 
-constexpr std::size_t MAX_MEM_SIZE = (1024 * 64);
+constexpr std::size_t MAX_MEM_SIZE    = (1024 * 64); // 64KB
+inline constexpr Address STACK_TOP    = { 0xFFFF };  //
+inline constexpr Address STACK_BOTTOM = { 0xFF00 };  // Total size 255KB for the stack
 
 
 namespace Tundra {
@@ -18,8 +21,11 @@ namespace Tundra {
 		MVI = 0x10, // Move Immediate  [ MVI reg, val ]
 		ADI = 0x11, // ADD  Immediate  [ ADI reg, val ]
 		STA = 0x12, // STORE           [ STA mem_add, {reg Value} ]
-		// TODO: Implement JMP instruction
+		
 		JMP = 0x13, // JUMP [JMP mem_add]
+		
+		PUSH = 0x14, // PUSH [mem_add]
+		POP  = 0x15, // POP
 
 	  	HLT = 0xFF, // TERMINATE/HALT
 	};
@@ -36,15 +42,22 @@ namespace Tundra {
 
 	// TODO: Define Errors with proper types
 	enum class Error {
-		INST_OK,
-		INST_STACK_OVERFLOW,
-		INST_STACK_UNDERFLOW,
-		INST_ILLEGAL_INST,
-		INST_UNKNOWN_INST,
-		INST_COUNT
+		OK,
+		STACK_OVERFLOW,
+		STACK_UNDERFLOW,
+		ILLEGAL_INSTRUCTION,
+		UNKNOWN_INSTRUCTION,
+		ILLEGAL_REGISTER_ID,
+		DIV_BY_ZERO,
 	};
 	constexpr Address GetAddressFromLH(Byte low, Byte high) {
 		return static_cast<Address>(high << 8) | static_cast<Address>(low); 
+	}
+	constexpr std::expected<Byte, Error> ValidateRegisterID(Byte regID) {
+		if(regID > static_cast<Byte>(Register::L)) {
+			return std::unexpected(Error::ILLEGAL_REGISTER_ID);
+		}
+		return regID;
 	}
 };
 

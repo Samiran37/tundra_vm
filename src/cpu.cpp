@@ -45,7 +45,7 @@ void Tundra::CPU::ExecuteCycle(Memory &mem) {
 
 		Zero = (res == 0); // If res is zero, zero flag is set
 		Negative = (res & 0x80) != 0; // If the 8th bit is not zero, Negative flag is set
-		Carry    = (result > 0xFF);   // If the result overflows beyound 8 bit, Carray flag is set
+		Carry    = (result > 0xFF);   // If the result overflows beyond 8 bit, Carray flag is set
 		Overflow = ((~(lhs ^ val) & (lhs ^ res) & 0x80) != 0); // WHAT THE FUCK???		
 		break;
 	}
@@ -64,7 +64,6 @@ void Tundra::CPU::ExecuteCycle(Memory &mem) {
 	    WriteCycle(mem, add, val);
 	    break;
 	}
-	// TODO: Implement JMP instruction
 	case Opcode::JMP: {
 		Byte low  = FetchByte(mem); // Fetch Low address
 		Byte high = FetchByte(mem); // Fetch high address
@@ -73,6 +72,13 @@ void Tundra::CPU::ExecuteCycle(Memory &mem) {
 		Address add = GetAddressFromLH(low, high);
 		PC = add;
 		break;
+	}
+	case Opcode::PUSH: {
+		// TODO: Implement PUSH Instruction
+		
+	}
+	case Opcode::POP: {
+		// TODO: Implement POP Instruction
 	}
 	case Opcode::HLT: 
 		halted = true;
@@ -92,7 +98,8 @@ void Tundra::CPU::step(Memory &mem) {
 
 void Tundra::CPU::reset() {
 	PC        = { 0x0000 };
-	registers = { 0 };
+	SP        = { 0xFFFF };
+	registers.fill(0);
 	IR 		  = { 0 };
 	MAR 	  = { 0x0000 };
 	MDR 	  = { 0x0 };
@@ -100,4 +107,5 @@ void Tundra::CPU::reset() {
 	Negative  = { false };
 	Overflow  = { false };
 	Carry 	  = { false };
+	halted    = { false };
 }

@@ -11,7 +11,7 @@ namespace Tundra {
     std::array<Byte, 7> registers{};
 
     // Special Registers
-    // Address SP = { 0xFFFF }; // STACK POINTER
+    Address SP = { 0xFFFF }; // STACK POINTER
     Address PC = { 0 };    // PROGRAM COUNTER --> Currently points at the last address of the memory
     Byte    IR = { 0 };    // INSTRUCTION REGISTER
     
@@ -69,6 +69,29 @@ namespace Tundra {
     
     void step(Memory &mem);
     void reset();
+
+  private:
+    // PUSH the value to the stack
+    std::expected<void, Error> PushByte(Memory &mem, Byte val) {
+      if(SP < STACK_BOTTOM) {
+        return std::unexpected(Error::STACK_OVERFLOW);
+      }
+      WriteCycle(mem, SP, val);
+      SP--;
+      return {};
+    }
+
+    // POP the value from the stack
+    std::expected<Byte, Error> PopByte(Memory &mem) {
+      if(SP >= STACK_TOP) {
+        return std::unexpected(Error::STACK_UNDERFLOW);
+      }
+      SP++;
+      ReadCycle(mem, SP);
+      return MDR;
+    }
+
   };
+
 };
 #endif // CPU_HPP

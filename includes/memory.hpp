@@ -13,7 +13,7 @@ namespace Tundra {
   public:
 
     // Reads the data from given address
-    Byte Read(Address add) {
+    Byte Read(Address add) const {
       return storage[add];
     }
 
