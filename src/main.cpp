@@ -3,9 +3,12 @@
 
 // Test JMP 
 Byte test_program[] = {
-  0x10, 0x00, 0x0A, // MVI A, 10
-  0x13, 0x09, 0x00, // JMP [0x0009]
-  0x10, 0x00, 0x05, // MVI A, 5
+  0x10, 0x00, 0x11, // MVI A, 0x11
+  0x10, 0x01, 0x22, // MVI B, 0x22
+  0x14, 0x00,       // PUSH A
+  0x14, 0x01,       // PUSH B
+  0x15, 0x02,       // POP C ; C should have val of B
+  0x15, 0x03,       // POP D ; D should have val of A
   0xFF,             // HLT
 };
 
@@ -25,7 +28,8 @@ int main() {
     cpu.step(mem);
   }
 
-  std::println("Value at reg  A: 0x{:02X}", cpu.GetRegister(Tundra::Register::A));
+  std::println("Value at reg C: 0x{:02X}", cpu.GetRegister(Tundra::Register::C));
+  std::println("Value at reg D: 0x{:02X}", cpu.GetRegister(Tundra::Register::D));
   cpu.ReadFlagStatus();
   return 0;
 }

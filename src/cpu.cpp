@@ -74,11 +74,40 @@ void Tundra::CPU::ExecuteCycle(Memory &mem) {
 		break;
 	}
 	case Opcode::PUSH: {
-		// TODO: Implement PUSH Instruction
+		Byte regID = FetchByte(mem);
+		auto validRegID = ValidateRegisterID(regID);
+		if(!validRegID) {
+			std::println("[Error]: Invalid Register ID");
+			halted = true;
+			break;
+		}
+		Byte regVal = GetRegister(static_cast<Register>(*validRegID));
+		auto pushRes = PushByte(mem, regVal);
+		if(!pushRes) {
+			std::println("[Error]: STACKOVERFLOW - [Core Dumped]");
+			halted = true;
+			break;
+		}
+		break;
 		
 	}
 	case Opcode::POP: {
-		// TODO: Implement POP Instruction
+		Byte regID = FetchByte(mem);
+		auto validRegID = ValidateRegisterID(regID);
+		if(!validRegID) {
+			std::println("[Error]: Invalid Register ID");
+			halted = true;
+			break;
+		}
+		Register reg = static_cast<Register>(*validRegID);
+		auto popRes = PopByte(mem);
+		if(!popRes) {
+			std::println("[Error]: STACKUNDERFLOW");
+			halted = true;
+			break;
+		}
+		SetRegister(reg, *popRes);
+		break;
 	}
 	case Opcode::HLT: 
 		halted = true;
