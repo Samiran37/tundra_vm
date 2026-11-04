@@ -1,35 +1,30 @@
 #include "memory.hpp"
 #include "cpu.hpp"
 
-// Test JMP 
-Byte test_program[] = {
-  0x10, 0x00, 0x11, // MVI A, 0x11
-  0x10, 0x01, 0x22, // MVI B, 0x22
-  0x14, 0x00,       // PUSH A
-  0x14, 0x01,       // PUSH B
-  0x15, 0x02,       // POP C ; C should have val of B
-  0x15, 0x03,       // POP D ; D should have val of A
-  0xFF,             // HLT
+
+// program
+Byte program[] {
+  0x10, 0x01, 0x01, // MVI B, 0x01
+  0x11, 0x00, 0x01, // ADI A, B
+  0x13, 0x00, 0x00, // JMP 0x0000
 };
 
 int main() {
   Tundra::Memory mem;
   Tundra::CPU    cpu;
 
-  std::size_t test_program_size = sizeof(test_program) / sizeof(test_program[0]);
-
+  // std::size_t test_program_size = sizeof(test_program) / sizeof(test_program[0]);
+  std::size_t program_size = sizeof(program) / sizeof(program[0]);
   // Write the program in the memory
-  for(std::size_t i=0;i<test_program_size;++i) {
-    cpu.WriteCycle(mem, static_cast<Address>(i), test_program[i]);
+  for(std::size_t i=0;i<program_size;++i) {
+    cpu.WriteCycle(mem, static_cast<Address>(i), program[i]);
   }
 
   // Execute
-  while(!cpu.isHalted()) {
+  for(std::size_t i=0;i<100;++i) {
     cpu.step(mem);
+    std::println("Reg A: 0x{:02X}", cpu.GetRegister(Tundra::Register::A));
   }
 
-  std::println("Value at reg C: 0x{:02X}", cpu.GetRegister(Tundra::Register::C));
-  std::println("Value at reg D: 0x{:02X}", cpu.GetRegister(Tundra::Register::D));
-  cpu.ReadFlagStatus();
   return 0;
 }
